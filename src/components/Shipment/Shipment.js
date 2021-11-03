@@ -13,7 +13,7 @@ const Shipment = () => {
       const savedCart = getDatabaseCart();
       const orderDetails = {...loggedInUser, products: savedCart, shipment: data, time: new Date() }
         
-        fetch('http://localhost:5000/addOrder', {
+        fetch('https://pacific-shore-16007.herokuapp.com/addOrder', {
           method:'POST',
           headers: { 'Content-Type' : 'application/json', 'Accept' : 'application/json'},
           body: JSON.stringify(orderDetails)

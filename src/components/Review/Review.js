@@ -29,7 +29,7 @@ const Review = () => {
             //  console.log(savedCart);
             const productKeys = Object.keys(savedCart);
             // console.log(productKeys)
-            fetch('http://localhost:5000/productsByKeys', {
+            fetch('https://pacific-shore-16007.herokuapp.com/productsByKeys', {
                 method: 'POST',
                 headers: {
                     'Content-type':'application/json',

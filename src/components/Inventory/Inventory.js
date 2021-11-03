@@ -1,18 +1,18 @@
 import React from 'react';
 import {Button} from 'react-bootstrap'
-import fakeData from '../../fakeData';
+// import fakeData from '../../fakeData';
 
 const Inventory = () => {
     document.tile="ema-john/inventory";
     const handleAddProduct = () => {
-        const products = {}
-        fetch('http://localhost:5000/addProduct', {
+        const product = {};
+        fetch('https://pacific-shore-16007.herokuapp.com/addProduct', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
                 'Accept': 'application/json',
             },
-            body: JSON.stringify(fakeData)
+            body: JSON.stringify(product)
         })
     }
 
