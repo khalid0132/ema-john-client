@@ -13,14 +13,22 @@ const Shop = () => {
   // console.log(first10);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [search, setSearch] = useState('');
+ 
+
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+    console.log(event.target.value)
+  }
 
   useEffect(() => {
-    fetch('https://pacific-shore-16007.herokuapp.com/products')
+    // fetch('https://pacific-shore-16007.herokuapp.com/products')
+    fetch('http://localhost:5000/products?search='+search)
     .then(res => res.json())
     .then(data => {
       setProducts(data)
     })
-  }, [])
+  }, [search])
 
   document.title ="ema-john/shop"
 
@@ -78,10 +86,14 @@ const Shop = () => {
       <h3> Number of Products:{products.length}</h3> */}
      
       <div className="product-container">
+        
+      <div className = "search-input">
+          <input onBlur = {handleSearch} placeholder= "Search products" type="text"/>
+      </div>
 
       {/* Material UI spinner added bellow: <CircularProgress /> */}
       {
-        products.length === 0 && <p>LOADING...</p>
+        products.length === 0 && <p style={{textAlign: 'center'}}>LOADING...</p>
       }
           {/* {products.map(pd => <img src= {pd.img}></img>)} */}
           {products.map((pd) => (<Product 

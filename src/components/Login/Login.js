@@ -34,6 +34,19 @@ function Login() {
 
   const googleProvider = new firebase.auth.GoogleAuthProvider();
   const fbProvider = new firebase.auth.FacebookAuthProvider();
+  
+  
+  const setUserToken = () => {
+    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+    .then(function(idToken) {
+      sessionStorage.setItem('token', idToken);
+    }).catch(function(error) {
+      // Handle error
+      console.log(error);
+    });
+  }
+
+
   const handleSignIn = () =>{
     firebase.auth().signInWithPopup(googleProvider)
     .then (res => {
@@ -45,6 +58,7 @@ function Login() {
         email: email,
         photo:photoURL,
       }
+      setUserToken();
       setUser(signedInUser);
       setLoggedInUser(signedInUser);
       history.replace(from);
@@ -192,11 +206,15 @@ function Login() {
   }
 
   return (
-    <div style={{textAlign: 'center'}}>
+    <div style={{textAlign: 'center', marginTop:'5px'}}>
+
       {
-        user.isSignedIn ? <button onClick={handleSignOut}>Sign Out</button> : <button onClick={handleSignIn}>Sign In</button>
+        user.isSignedIn ? <button onClick={handleSignOut} className="btn btn-danger">Sign Out</button> : <button onClick={handleSignIn} className="btn btn-success">Sign In with Google</button>
         
       }
+
+      {/* <button onClick={handleSignIn} className="btn btn-success">Sign In with Google</button> */}
+      <button onClick={handleSignOut} className="btn btn-danger">Sign Out</button>
       {
         user.isSignedIn && 
         <div>
@@ -205,8 +223,9 @@ function Login() {
           <img src={user.photo} alt=""/>
         </div>
       }
-      <br/><button onClick={handleFbSignIn}>Sign in by using Facebook</button>
-        <h1>Own Authentication</h1>
+      <br/><br/>
+      <button className="btn btn-primary" onClick={handleFbSignIn}>Sign In with Facebook</button>
+        <h1 className="fw-bold">Own Authentication</h1>
         <input type="checkbox" name = "newUser" onChange={() =>setNewUser(!newUser)}></input>
         <label htmlFor ="newUser"> New User Sign Up</label>
       
@@ -214,13 +233,13 @@ function Login() {
         <p>Email: {user.email}</p>
         <p>PassWord: {user.password}</p> */}
         <form onSubmit={handleSubmit}>
-           {newUser && <input onBlur={handleBlur} type="text" name= "name" placeholder="Your Name" required></input>}
-            <br/>
-            <input onBlur={handleBlur} type="text" name="email" placeholder="E-mail" required/>
-            <br/>
-            <input onBlur={handleBlur} type="password" name="password" id="" placeholder="your password" required/>
-            <br/>
-            <input type="submit" value={newUser? 'Sign Up' : 'Sign In'}/>
+           {newUser && <p><input onBlur={handleBlur} type="text" name= "name" placeholder="Your Name" required></input></p>}
+         
+            <p><input onBlur={handleBlur} type="text" name="email" placeholder="E-mail" required/></p>
+          
+            <p><input onBlur={handleBlur} type="password" name="password" id="" placeholder="Password" required/></p>
+            
+            <p><input className="btn btn-success" type="submit" value={newUser? 'Sign Up' : 'Sign In'}/></p>
         </form>
         <p style={{color: 'red'}}>{user.error}</p>
        {user.success && <p style={{color: 'green'}}>User {newUser ? 'created' : 'Logged in'} successfully</p>}

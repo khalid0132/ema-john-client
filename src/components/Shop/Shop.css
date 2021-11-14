@@ -12,3 +12,9 @@
 .cart-container{
     /* display: fixed; */
 }
+
+.search-input{
+    background: rgba(0, 0, 0, 0.7);
+    line-height: 40px;
+    text-align: center;
+}
